@@ -1,2 +1,5 @@
 .idea
 .venv
+medusa_vision.egg-info
+dist
+build
