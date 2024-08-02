@@ -3,3 +3,4 @@
 medusa_vision.egg-info
 dist
 build
+.pypirc
