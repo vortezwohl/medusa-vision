@@ -1,0 +1,4 @@
+include medusa-vision-static/config/haarcascade_frontalface_default.xml
+include medusa-vision-static/weight/fer2013_mini_XCEPTION_param58423_epoch102_acc0.66.hdf5
+include medusa-vision-static/weight/fer2013_simple_CNN_param642935_epoch985_acc0.66.hdf5
+include medusa-vision-static/weight/imdb_mini_XCEPTION_param52658_epoch21_acc0.95.hdf5

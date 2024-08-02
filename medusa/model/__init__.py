@@ -1,0 +1,3 @@
+from .cnn import create_simple_CNN, create_mini_XCEPTION
+from .gender_detection import imdb_mini_XCEPTION_param52658_acc95
+from .emotion_detection import fer_simple_CNN_param642935_acc66, fer_mini_XCEPTION_param58423_acc66

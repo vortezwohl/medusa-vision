@@ -6,11 +6,15 @@ from keras import Model
 from keras._tf_keras.keras.preprocessing import image as tfimage
 
 from medusa.detection.face import detect_faces
+from medusa.exception import ModelNotSupportedError
+from medusa.model import imdb_mini_XCEPTION_param52658_acc95
 from medusa.model.gender_detection import GENDER
 from medusa.model.util.preprocessor import resize_image
 
 
 def detect_gender_from_gray(model: Model, gray_face: np.ndarray | Mat) -> tuple | None:
+    if model != imdb_mini_XCEPTION_param52658_acc95:
+        raise ModelNotSupportedError(f'Unsupported gender model: {model}')
     roi_gray = resize_image(
         gray_face,
         (64, 64)

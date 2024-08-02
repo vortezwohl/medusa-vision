@@ -4,11 +4,11 @@ import cv2
 import numpy as np
 from cv2 import Mat
 
-from medusa.exception.UnsupportedFormatError import UnsupportedFormatError
+from medusa.exception import UnsupportedFormatError
 from medusa.model.util.find_file import file_exists
+from medusa.config import CONFIG, ROOT
 
-PATH = os.path.dirname(__file__)
-HAAR_CASCADE_CONFIG = f'{PATH}\\..\\model\\config\\haarcascade_frontalface_default.xml'
+HAAR_CASCADE_CONFIG = f'{CONFIG}\\config\\haarcascade_frontalface_default.xml'
 
 face_haar_cascade = cv2.CascadeClassifier(HAAR_CASCADE_CONFIG)
 

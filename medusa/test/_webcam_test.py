@@ -1,5 +1,3 @@
-import os
-
 import cv2
 from keras import Model
 
@@ -10,6 +8,7 @@ from medusa.model.emotion_detection import (
 from medusa.model.gender_detection import imdb_mini_XCEPTION_param52658_acc95
 from medusa.detection.face import detect_faces
 from medusa.model.util.image_show import draw_text, draw_bounding_box
+from medusa.exception import ModelNotSupportedError
 from medusa.detection.emotion import detect_emo_from_gray
 from medusa.detection.gender import detect_gender_from_gray
 
@@ -21,9 +20,9 @@ def run_test(
         ui_thickness: int = 1
 ):
     if emo_model != fer_simple_CNN_param642935_acc66 and emo_model != fer_mini_XCEPTION_param58423_acc66:
-        raise ModuleNotFoundError(f'Unsupported emo model: {emo_model}')
+        raise ModelNotSupportedError(f'Unsupported emo model: {emo_model}')
     if gender_model != imdb_mini_XCEPTION_param52658_acc95:
-        raise ModuleNotFoundError(f'Unsupported gender model: {gender_model}')
+        raise ModelNotSupportedError(f'Unsupported gender model: {gender_model}')
     cap = cv2.VideoCapture(0)
     while True:
         # captures frame and returns boolean value and captured image

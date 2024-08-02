@@ -6,8 +6,10 @@ from keras import Model
 from keras._tf_keras.keras.preprocessing import image as tfimage
 
 from medusa.detection.face import detect_faces
-from medusa.model.emotion_detection import EMO, fer_simple_CNN_param642935_acc66, fer_mini_XCEPTION_param58423_acc66
+from medusa.model import fer_simple_CNN_param642935_acc66, fer_mini_XCEPTION_param58423_acc66
+from medusa.model.emotion_detection import EMO
 from medusa.model.util.preprocessor import resize_image
+from medusa.exception import ModelNotSupportedError
 
 
 def detect_emo_from_gray(model: Model, gray_face: np.ndarray | Mat) -> tuple | None:
@@ -16,7 +18,7 @@ def detect_emo_from_gray(model: Model, gray_face: np.ndarray | Mat) -> tuple | N
     elif model == fer_mini_XCEPTION_param58423_acc66:
         input_shape = 64, 64
     else:
-        raise ModuleNotFoundError(f'Unsupported model: {model}')
+        raise ModelNotSupportedError(f'Unsupported model: {model}')
     roi_gray = resize_image(
         gray_face,
         input_shape
