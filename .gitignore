@@ -3,5 +3,9 @@
 medusa_vision.egg-info
 dist
 build
+__pycache__
 .pypirc
 api_token
+*.xml
+*.h5
+*.hdf5
