@@ -8,7 +8,7 @@ with open("LICENSE", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="medusa-vision",
-    version='0.5.3',
+    version='0.5.4',
     author="vortezwohl",
     author_email="vortezwohl@proton.me",
     description="Emotion and gender recognition",
