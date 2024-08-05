@@ -1,0 +1,2 @@
+class RollbackError(IOError):
+    pass

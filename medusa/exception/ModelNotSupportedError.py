@@ -1,0 +1,2 @@
+class ModelNotSupportedError(Exception):
+    pass
