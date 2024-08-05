@@ -1,2 +1,0 @@
-class UnsupportedFormatError(IOError):
-    pass
