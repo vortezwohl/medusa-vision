@@ -8,7 +8,7 @@ with open("LICENSE", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="medusa-vision",
-    version='0.5.2',
+    version='0.5.3',
     author="vortezwohl",
     author_email="vortezwohl@proton.me",
     description="Emotion and gender recognition",
@@ -36,8 +36,8 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'medusa-clear = medusa_resources.storage_manager:uninstall_resources'
-        ],
+            'medusa-clear = medusa_resources.storage.storage_manager:uninstall_resources'
+        ]
     },
     include_package_data=False,
     # data_files=[

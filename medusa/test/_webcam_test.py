@@ -69,7 +69,7 @@ def run_test(
                 top_k=2
             )
 
-            age_text = f'age:{str(predict_ages[0]['age'])} con:{str(predict_ages[0]['probability'])}'
+            age_text = f"age:{str(predict_ages[0]['age'])} con:{str(predict_ages[0]['probability'])}"
 
             draw_bounding_box(face_coordinates, test_img, color)
             draw_text(face_coordinates, test_img, emo_text,
