@@ -1,4 +1,4 @@
-__version__ = '0.5.3'
+__version__ = '0.5.4'
 __author__ = 'vortezwohl'
 __email__ = 'vortezwohl@proton.me'
 
@@ -22,4 +22,5 @@ if install_resources(rollback_retries=3):
     DEFAULT_AGE_MODEL = age_vggface2_VGG16_param134674341_acc97
 
 else:
-    raise ResourceDownloadError(f'Failed Downloading resources. Please try again or install manually from {MEDUSA_RESOURCES_GITHUB}.')
+    raise ResourceDownloadError(f'Failed Downloading resources. Please try again or install manually from '
+                                f'{MEDUSA_RESOURCES_GITHUB}.')
