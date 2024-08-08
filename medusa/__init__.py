@@ -1,4 +1,4 @@
-__version__ = '0.6.1'
+__version__ = '0.6.3'
 __author__ = 'vortezwohl'
 __email__ = 'vortezwohl@proton.me'
 
@@ -7,22 +7,8 @@ from medusa_resources.exception import ResourceDownloadError
 from medusa_resources.storage import MEDUSA_RESOURCES_GITHUB
 
 if install_resources(rollback_retries=3):
-
-    import keras
-    from .model import *
-    from .vision import *
-    from .model.util import *
     from .test import webcam_test
-
-    keras.layers.deserialize._kerastypes = {
-        'Sequential': keras.Sequential
-    }
-
-    DEFAULT_EMO_MODEL = fer_simple_CNN_param642935_acc66
-    DEFAULT_GENDER_MODEL = gender_vggface2_VGG16_param134268738_acc97
-    DEFAULT_AGE_MODEL = age_vggface2_VGG16_param134674341_acc97
-    DEFAULT_EMBEDDING_MODEL = embedding_vggface2_VGG16_param52658_acc97
-
 else:
-    raise ResourceDownloadError(f'Failed Downloading resources. Please try again or install manually from '
+    raise ResourceDownloadError(f'Failed Downloading resources. '
+                                f'Please try again or install manually from '
                                 f'{MEDUSA_RESOURCES_GITHUB}.')
