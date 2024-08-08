@@ -1,10 +1,9 @@
+import os
 import cv2
-import numpy as np
-from cv2 import Mat
 
-from medusa.exception import UnsupportedFormatError
-from medusa_resources.util import file_exists
+from medusa.model.util.preprocessor import read_image
 from medusa_resources import MEDUSA_STORAGE_OPENCV
+from medusa_resources.util import file_exists
 
 HAAR_CASCADE_CONFIG = f'{MEDUSA_STORAGE_OPENCV}\\haarcascade_frontalface_default.xml'
 
@@ -12,26 +11,9 @@ face_haar_cascade = cv2.CascadeClassifier(HAAR_CASCADE_CONFIG)
 
 
 # (x, y, w, h)
-def detect_faces(img, scale_rate: int = 1.25) -> list | tuple:
+def detect_faces(img, scale_rate: int = 1.25, offsets: tuple = (0, 0)) -> list | tuple:
     res = []
-    if isinstance(img, str):
-        if not file_exists(img):
-            raise FileNotFoundError(f'Image: {img} not found')
-        original_image = cv2.imread(img)
-    elif isinstance(img, np.ndarray | Mat):
-        original_image = img
-    else:
-        try:
-            # img = BytesIO(image_data_from_internet)
-            original_image = cv2.imdecode(
-                np.frombuffer(
-                    img.read(),
-                    np.uint8
-                ),
-                cv2.IMREAD_COLOR
-            )
-        except:
-            raise UnsupportedFormatError(f'Unsupported input format: {type(img)}')
+    original_image = read_image(img)
     gray_image = cv2.cvtColor(
         original_image,
         cv2.COLOR_BGR2GRAY
@@ -41,7 +23,8 @@ def detect_faces(img, scale_rate: int = 1.25) -> list | tuple:
         scale_rate,
         5
     )
-    for x, y, w, h in faces_detected:
+    for coordinates in faces_detected:
+        x, y, w, h = apply_offsets(coordinates, offsets)
         res.append((
                 (x, y, w, h),
                 original_image[y:y + h, x:x + w],
@@ -53,3 +36,21 @@ def detect_faces(img, scale_rate: int = 1.25) -> list | tuple:
 
 def count_faces(img, scale_rate: int = 1.25):
     return len(detect_faces(img, scale_rate))
+
+
+def apply_offsets(face_coordinates, offsets) -> tuple[int, int, int, int]:
+    x, y, width, height = face_coordinates
+    x_off, y_off = offsets
+    return x - x_off, y - y_off, width + x_off, height + y_off
+
+
+def split_and_export_faces(img: str, export_dir: str, scale_rate: int = 1.25, offsets: tuple = (15, 60)):
+    if not file_exists(export_dir):
+        os.makedirs(export_dir)
+    export_dir = export_dir.replace('/', '').replace('\\', '').replace('.', '')
+    for index, (coordinates, rgb, gray) in enumerate(detect_faces(img, scale_rate, offsets)):
+        cv2.imwrite(
+            filename=f"{export_dir}/face{index}.png",
+            img=rgb,
+            params=[int(cv2.IMWRITE_PNG_COMPRESSION), 1]
+        )
