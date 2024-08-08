@@ -2,7 +2,7 @@ import cv2
 from keras import Model
 
 from medusa.model import *
-from medusa.detection import *
+from medusa.vision import *
 from medusa.model.util.image_show import draw_text, draw_bounding_box
 from medusa.exception import ModelNotSupportedError
 from medusa.model.util.postprocessor import output_stringify

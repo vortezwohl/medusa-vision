@@ -8,3 +8,5 @@ from .emotion_detection import (
     fer_mini_XCEPTION_param58423_acc66
 )
 from .age_detection import age_vggface2_VGG16_param134674341_acc97
+from .vgg16_face import vggface2_VGG16_param52658_acc97
+from .face_embedding import embedding_vggface2_VGG16_param52658_acc97
