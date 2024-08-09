@@ -8,10 +8,10 @@ with open("LICENSE", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="medusa-vision",
-    version='0.7.1',
+    version='0.7.5',
     author="vortezwohl",
     author_email="vortezwohl@proton.me",
-    description="Emotion and gender recognition",
+    description="A light-weight facial attribute recognition and face embedding calculation library.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     license=license_content,
