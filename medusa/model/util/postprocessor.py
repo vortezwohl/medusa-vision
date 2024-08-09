@@ -3,9 +3,25 @@ import cv2
 import keras
 
 from medusa.model.util.preprocessor import resize_image
-from medusa.model.util.distance import find_cosine_distance, find_euclidean_distance
-from medusa.exception import ModelNotSupportedError, MetricNotSupportedError, MoreThanOneFaceError
-from medusa.model import embedding_vggface2_VGG16_param52658_acc97
+from medusa.model.util.distance import (
+    find_cosine_distance,
+    find_euclidean_distance
+)
+from medusa.exception import (
+    ModelNotSupportedError,
+    MetricNotSupportedError,
+    MoreThanOneFaceError
+)
+from medusa.model import (
+    embedding_vggface2_VGG16_param52658_acc97,
+    DEFAULT_EMBEDDING_MODEL
+)
+from medusa.model.face_embedding import (
+    COSINE,
+    EUCLIDEAN,
+    EUCLIDEAN_L2,
+    DEFAULT_METRIC
+)
 from medusa.model.face_embedding import THRESHOLDS
 from medusa.vision import detect_faces
 
@@ -17,14 +33,25 @@ def l2_normalize(x: np.ndarray | list) -> np.ndarray:
     return x / np.sqrt(np.sum(np.multiply(x, x)))
 
 
-def vectorize_face_from_ndarray(model: keras.Model, img: np.ndarray | cv2.Mat) -> np.ndarray:
+def vectorize_face_from_ndarray(
+        img: np.ndarray | cv2.Mat,
+        model: keras.Model = DEFAULT_EMBEDDING_MODEL
+) -> np.ndarray:
     if model == embedding_vggface2_VGG16_param52658_acc97:
-        return l2_normalize(embedding_vggface2_VGG16_param52658_acc97.predict(img, verbose=False)[0])
+        return l2_normalize(
+            embedding_vggface2_VGG16_param52658_acc97.predict(
+                img,
+                verbose=False
+            )[0]
+        )
     raise ModelNotSupportedError(f'Unsupported model: {model}')
 
 
 # only one face should be provided
-def vectorize_face(model: keras.Model, img) -> np.ndarray:
+def vectorize_face(
+        img,
+        model: keras.Model = DEFAULT_EMBEDDING_MODEL
+) -> np.ndarray:
     faces_detected = detect_faces(img)
     if len(faces_detected) != 1:
         raise MoreThanOneFaceError(f'More than one face detected. Detected faces: {len(faces_detected)}')
@@ -34,12 +61,12 @@ def vectorize_face(model: keras.Model, img) -> np.ndarray:
     else:
         raise ModelNotSupportedError(f'Unsupported model: {model}')
     return vectorize_face_from_ndarray(
-        model,
-        resized_input
+        resized_input,
+        model
     )
 
 
-def find_thresholds(model: keras.Model) -> dict:
+def find_thresholds(model: keras.Model = DEFAULT_EMBEDDING_MODEL) -> dict:
     if model == embedding_vggface2_VGG16_param52658_acc97:
         return THRESHOLDS['VGG-Face-Embedding']
     else:
@@ -49,13 +76,13 @@ def find_thresholds(model: keras.Model) -> dict:
 def find_distance(
         img1: np.ndarray,
         img2: np.ndarray,
-        metric: str = 'euclidean_l2'
+        metric: str = DEFAULT_METRIC
 ) -> np.float64:
-    if metric == 'cosine':
+    if metric == COSINE:
         return find_cosine_distance(img1, img2)
-    elif metric == 'euclidean':
+    elif metric == EUCLIDEAN:
         return find_euclidean_distance(img1, img2)
-    elif metric == 'euclidean_l2':
+    elif metric == EUCLIDEAN_L2:
         return find_euclidean_distance(
             l2_normalize(img1), l2_normalize(img2)
         )

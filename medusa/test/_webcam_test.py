@@ -9,9 +9,9 @@ from medusa.model.util.postprocessor import output_stringify
 
 
 def run_test(
-        emo_model: Model = fer_simple_CNN_param642935_acc66,
-        gender_model: Model = gender_vggface2_VGG16_param134268738_acc97,
-        age_model: Model = age_vggface2_VGG16_param134674341_acc97,
+        emo_model: Model = DEFAULT_EMO_MODEL,
+        gender_model: Model = DEFAULT_GENDER_MODEL,
+        age_model: Model = DEFAULT_AGE_MODEL,
         color: tuple[int, int, int] = (0, 255, 0),
         ui_thickness: int = 1
 ):

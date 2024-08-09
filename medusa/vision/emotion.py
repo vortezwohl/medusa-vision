@@ -5,13 +5,20 @@ import numpy as np
 from keras import Model
 
 from medusa.vision.face import detect_faces
-from medusa.model import fer_simple_CNN_param642935_acc66, fer_mini_XCEPTION_param58423_acc66
+from medusa.model import (
+    fer_simple_CNN_param642935_acc66,
+    fer_mini_XCEPTION_param58423_acc66,
+    DEFAULT_EMO_MODEL
+)
 from medusa.model.emotion_detection import EMO
 from medusa.model.util.preprocessor import resize_image
 from medusa.exception import ModelNotSupportedError
 
 
-def detect_emo_from_gray(model: Model, gray_face: np.ndarray | Mat) -> tuple:
+def detect_emo_from_gray(
+        gray_face: np.ndarray | Mat,
+        model: Model = DEFAULT_EMO_MODEL
+) -> tuple:
     if model == fer_simple_CNN_param642935_acc66:
         input_shape = 48, 48
     elif model == fer_mini_XCEPTION_param58423_acc66:
@@ -43,7 +50,11 @@ def detect_emo_from_gray(model: Model, gray_face: np.ndarray | Mat) -> tuple:
     )
 
 
-def detect_emos(model: Model, img: any, scale_rate: int = 1.25) -> tuple:
+def detect_emos(
+        img: any,
+        scale_rate: int = 1.25,
+        model: Model = DEFAULT_EMO_MODEL
+) -> tuple:
     res = []
     faces = detect_faces(
         img,
